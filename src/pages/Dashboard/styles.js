@@ -16,3 +16,21 @@ export const Title = styled.Text`
   font-size: 22px;
   margin: 0 10px;
 `;
+
+export const MeetupsList = styled.FlatList.attrs({
+  showsVerticalScrollIndicator: false,
+})`
+  padding: 0 20px 20px;
+`;
+
+export const LoadingContainer = styled.View`
+  flex: 1;
+  justify-content: center;
+  margin-bottom: 50px;
+`;
+
+export const NoMeetups = styled.Text`
+  color: #999;
+  font-size: 16px;
+  align-self: center;
+`;
