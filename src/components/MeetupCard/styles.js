@@ -4,6 +4,7 @@ import Button from '~/components/Button';
 
 export const Container = styled.View`
   margin-bottom: 20px;
+  opacity: ${props => (props.past ? 0.8 : 1)};
 `;
 
 export const ImgWrapper = styled.View`
@@ -39,15 +40,18 @@ export const Details = styled.View`
 export const Time = styled.Text`
   color: #999;
   margin-bottom: 5px;
+  line-height: 24px;
 `;
 
 export const Location = styled.Text`
   color: #999;
   margin-bottom: 5px;
+  line-height: 24px;
 `;
 
 export const Author = styled.Text`
   color: #999;
+  line-height: 24px;
 `;
 
 export const ActionButton = styled(Button)``;

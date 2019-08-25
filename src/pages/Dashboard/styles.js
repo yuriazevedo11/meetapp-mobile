@@ -33,4 +33,5 @@ export const NoMeetups = styled.Text`
   color: #999;
   font-size: 16px;
   align-self: center;
+  margin: 20px 0;
 `;

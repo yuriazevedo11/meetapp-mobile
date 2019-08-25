@@ -3,7 +3,9 @@ import {
   TouchableOpacity,
   RefreshControl,
   ActivityIndicator,
+  Alert,
 } from 'react-native';
+import { withNavigationFocus } from 'react-navigation';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import { format, subDays, addDays } from 'date-fns';
 import ptBR from 'date-fns/locale/pt-BR';
@@ -23,7 +25,7 @@ import {
   NoMeetups,
 } from './styles';
 
-export default function Dashboard() {
+function Dashboard({ isFocused }) {
   const [meetups, setMeetups] = useState([]);
   const [date, setDate] = useState(new Date());
   const [page, setPage] = useState(1);
@@ -52,8 +54,10 @@ export default function Dashboard() {
   }
 
   useEffect(() => {
-    loadMeetups();
-  }, [date]); // eslint-disable-line
+    if (isFocused) {
+      loadMeetups();
+    }
+  }, [date, isFocused]); // eslint-disable-line
 
   function handlePrevDay() {
     setLoading(true);
@@ -73,6 +77,20 @@ export default function Dashboard() {
   function refreshMeetups() {
     setRefreshing(true);
     loadMeetups();
+  }
+
+  async function subscribe(id) {
+    try {
+      await api.post(`subscriptions/${id}`);
+
+      setMeetups(
+        meetups.map(meetup =>
+          meetup.id === id ? { ...meetup, disabled: true } : meetup
+        )
+      );
+    } catch (error) {
+      Alert.alert('Falha na inscrição', 'Tente novamente');
+    }
   }
 
   const refreshConfig = (
@@ -115,12 +133,12 @@ export default function Dashboard() {
             renderItem={({ item }) => (
               <MeetupCard
                 data={item}
-                action={() => {}}
+                action={() => subscribe(item.id)}
                 actionTitle="Realizar Inscrição"
               />
             )}
             ListEmptyComponent={
-              <NoMeetups>Não possui nenhum meetup neste dia</NoMeetups>
+              <NoMeetups>Não tem nenhum meetup neste dia</NoMeetups>
             }
           />
         )}
@@ -136,6 +154,12 @@ function navIcon({ tintColor }) {
 Dashboard.navigationOptions = {
   tabBarLabel: 'Meetups',
   tabBarIcon: navIcon,
+};
+
+export default withNavigationFocus(Dashboard);
+
+Dashboard.propTypes = {
+  isFocused: PropTypes.bool.isRequired,
 };
 
 navIcon.propTypes = {

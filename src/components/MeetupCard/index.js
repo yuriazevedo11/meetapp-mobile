@@ -1,6 +1,7 @@
 import React from 'react';
 import { format, parseISO } from 'date-fns';
 import ptBR from 'date-fns/locale/pt-BR';
+import PropTypes from 'prop-types';
 
 import {
   Container,
@@ -21,7 +22,7 @@ export default function MeetupCard({ data, action, actionTitle }) {
   });
 
   return (
-    <Container>
+    <Container past={data.past}>
       <ImgWrapper>
         {data.File && <Image source={{ uri: data.File.url }} />}
       </ImgWrapper>
@@ -32,8 +33,28 @@ export default function MeetupCard({ data, action, actionTitle }) {
           <Location>{data.location}</Location>
           <Author>Organizado por: {data.User.name}</Author>
         </Details>
-        <ActionButton onPress={action}>{actionTitle}</ActionButton>
+        {!(data.past || data.disabled) && (
+          <ActionButton onPress={action}>{actionTitle}</ActionButton>
+        )}
       </Info>
     </Container>
   );
 }
+
+MeetupCard.propTypes = {
+  data: PropTypes.shape({
+    date: PropTypes.string,
+    title: PropTypes.string,
+    location: PropTypes.string,
+    past: PropTypes.bool,
+    disabled: PropTypes.bool,
+    File: PropTypes.shape({
+      url: PropTypes.string,
+    }),
+    User: PropTypes.shape({
+      name: PropTypes.string,
+    }),
+  }).isRequired,
+  action: PropTypes.func.isRequired,
+  actionTitle: PropTypes.string.isRequired,
+};
