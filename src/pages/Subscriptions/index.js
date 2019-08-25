@@ -1,12 +1,17 @@
 import React from 'react';
-import { Text } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import PropTypes from 'prop-types';
 
-// import { Container } from './styles';
+import Background from '~/components/Background';
+
+import { Container } from './styles';
 
 export default function Subscriptions() {
-  return <Text>Subscriptions</Text>;
+  return (
+    <Background>
+      <Container />
+    </Background>
+  );
 }
 
 function navIcon({ tintColor }) {
