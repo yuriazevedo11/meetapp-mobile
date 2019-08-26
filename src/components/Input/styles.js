@@ -18,3 +18,9 @@ export const TInput = styled.TextInput.attrs({
   margin-left: 10px;
   color: #fff;
 `;
+
+export const Error = styled.Text`
+  margin: 5px 0 10px 10px;
+  font-size: 12px;
+  color: #f00;
+`;

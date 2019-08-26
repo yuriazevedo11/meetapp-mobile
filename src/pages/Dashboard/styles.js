@@ -19,9 +19,8 @@ export const Title = styled.Text`
 
 export const MeetupsList = styled.FlatList.attrs({
   showsVerticalScrollIndicator: false,
-})`
-  padding: 0 20px 20px;
-`;
+  contentContainerStyle: { paddingHorizontal: 20 },
+})``;
 
 export const LoadingContainer = styled.View`
   flex: 1;

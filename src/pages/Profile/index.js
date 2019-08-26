@@ -2,6 +2,7 @@ import React, { useRef, useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import PropTypes from 'prop-types';
+import validate from 'validate.js';
 
 import { updateProfileRequest } from '~/store/modules/user/actions';
 import { signOut } from '~/store/modules/auth/actions';
@@ -16,6 +17,16 @@ import {
   SubmitButton,
   LogoutButton,
 } from './styles';
+
+const constraints = {
+  name: {
+    presence: { allowEmpty: false, message: 'O nome é obrigatório' },
+  },
+  email: {
+    presence: { allowEmpty: false, message: 'O e-mail é obrigatório' },
+    email: { message: 'Digite um e-mail válido' },
+  },
+};
 
 export default function Profile() {
   const dispatch = useDispatch();
@@ -32,6 +43,9 @@ export default function Profile() {
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
 
+  const [nameError, setNameError] = useState(null);
+  const [emailError, setEmailError] = useState(null);
+
   useEffect(() => {
     setOldPassword('');
     setPassword('');
@@ -39,15 +53,27 @@ export default function Profile() {
   }, [profile]);
 
   function handleSubmit() {
-    dispatch(
-      updateProfileRequest({
-        name,
-        email,
-        oldPassword,
-        password,
-        confirmPassword,
-      })
-    );
+    const errors = validate({ name, email }, constraints, {
+      fullMessages: false,
+    });
+
+    if (errors) {
+      setNameError(errors.name && errors.name[0]);
+      setEmailError(errors.email && errors.email[0]);
+    } else {
+      setNameError(null);
+      setEmailError(null);
+
+      dispatch(
+        updateProfileRequest({
+          name,
+          email,
+          oldPassword,
+          password,
+          confirmPassword,
+        })
+      );
+    }
   }
 
   function handleLogout() {
@@ -67,6 +93,7 @@ export default function Profile() {
             blurOnSubmit={false}
             returnKeyType="next"
             onChangeText={setName}
+            error={nameError}
           />
 
           <FormInput
@@ -81,6 +108,7 @@ export default function Profile() {
             returnKeyType="next"
             ref={emailRef}
             onChangeText={setEmail}
+            error={emailError}
           />
 
           <Separator />

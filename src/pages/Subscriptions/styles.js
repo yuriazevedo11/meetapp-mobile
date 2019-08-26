@@ -6,9 +6,11 @@ export const Container = styled.View`
 
 export const MeetupsList = styled.FlatList.attrs({
   showsVerticalScrollIndicator: false,
-})`
-  padding: 20px;
-`;
+  contentContainerStyle: {
+    paddingTop: 20,
+    paddingHorizontal: 20,
+  },
+})``;
 
 export const LoadingContainer = styled.View`
   flex: 1;

@@ -79,7 +79,6 @@ function Subscriptions({ isFocused }) {
             data={meetups}
             keyExtractor={meetup => String(meetup.id)}
             refreshControl={refreshConfig}
-            contentContainerStyle={{ paddingBottom: 20 }}
             renderItem={({ item }) => (
               <MeetupCard
                 data={item}

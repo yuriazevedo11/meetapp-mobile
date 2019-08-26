@@ -21,7 +21,7 @@ export const Form = styled.ScrollView.attrs({
 `;
 
 export const FormInput = styled(Input)`
-  margin-bottom: 10px;
+  margin-bottom: ${props => (props.error ? 0 : '10px')};
 `;
 
 export const SubmitButton = styled(Button)`
@@ -31,4 +31,5 @@ export const SubmitButton = styled(Button)`
 export const LogoutButton = styled(Button)`
   margin-top: 10px;
   background: #d1324e;
+  height: 40px;
 `;
