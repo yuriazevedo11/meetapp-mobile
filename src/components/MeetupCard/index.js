@@ -1,4 +1,6 @@
 import React from 'react';
+import { Alert } from 'react-native';
+import Icon from 'react-native-vector-icons/MaterialIcons';
 import { format, parseISO } from 'date-fns';
 import ptBR from 'date-fns/locale/pt-BR';
 import PropTypes from 'prop-types';
@@ -14,6 +16,7 @@ import {
   Location,
   Author,
   ActionButton,
+  InfoButton,
 } from './styles';
 
 export default function MeetupCard({ data, action, actionTitle }) {
@@ -23,9 +26,14 @@ export default function MeetupCard({ data, action, actionTitle }) {
 
   return (
     <Container past={data.past}>
+      <InfoButton onPress={() => Alert.alert('Descrição', data.description)}>
+        <Icon name="info" color="#0083d0" size={30} />
+      </InfoButton>
+
       <ImgWrapper>
         {data.File && <Image source={{ uri: data.File.url }} />}
       </ImgWrapper>
+
       <Info>
         <Title>{data.title}</Title>
         <Details>
@@ -48,6 +56,7 @@ MeetupCard.propTypes = {
     location: PropTypes.string,
     past: PropTypes.bool,
     disabled: PropTypes.bool,
+    description: PropTypes.string,
     File: PropTypes.shape({
       url: PropTypes.string,
     }),

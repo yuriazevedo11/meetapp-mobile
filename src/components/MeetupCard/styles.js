@@ -3,6 +3,7 @@ import styled from 'styled-components/native';
 import Button from '~/components/Button';
 
 export const Container = styled.View`
+  position: relative;
   margin-bottom: 20px;
   opacity: ${props => (props.past ? 0.8 : 1)};
 `;
@@ -55,3 +56,13 @@ export const Author = styled.Text`
 `;
 
 export const ActionButton = styled(Button)``;
+
+export const InfoButton = styled.TouchableOpacity`
+  top: 5px;
+  right: 5px;
+  z-index: 1;
+  position: absolute;
+
+  border-radius: 15px;
+  background: #fff;
+`;
